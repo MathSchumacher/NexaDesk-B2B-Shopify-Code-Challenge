@@ -66,7 +66,16 @@ export const Documentation = () => {
   };
 
   return (
-    <div className="docs-page">
+    <div 
+      className="docs-page"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* Mobile Back Button */}
+      <button onClick={() => navigate('/')} className="mobile-back-btn-global">
+        <ArrowLeft size={20} />
+      </button>
       <nav className="docs-nav">
         <div className="nav-container">
           <div className="nav-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
@@ -122,12 +131,7 @@ export const Documentation = () => {
           </div>
         </aside>
 
-        <main 
-          className="docs-content" 
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-        >
+        <main className="docs-content">
           <Outlet />
         </main>
       </div>

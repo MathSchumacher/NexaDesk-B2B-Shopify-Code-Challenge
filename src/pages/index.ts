@@ -23,6 +23,10 @@ export { ClientDetail } from './ClientDetail/ClientDetail';
 export { PriceLists } from './PriceLists/PriceLists';
 export { KnowledgeBase } from './KnowledgeBase/KnowledgeBase';
 export { Quotes } from './Quotes/Quotes';
+export { Terms } from './Terms/Terms';
+export { Privacy } from './Privacy/Privacy';
+export { Status } from './Status/Status';
+export { Contact } from './Contact/Contact';
 
 
 

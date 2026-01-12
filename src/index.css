@@ -311,3 +311,38 @@ button {
   background: var(--primary-500);
   color: var(--bg-primary);
 }
+
+/* ==========================================
+   Global Mobile Back Button
+   ========================================== */
+.mobile-back-btn-global {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  color: white;
+  transition: all var(--transition-fast);
+}
+
+.mobile-back-btn-global:active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .mobile-back-btn-global {
+    display: flex;
+  }
+  .desktop-back-btn {
+    display: none !important;
+  }
+}

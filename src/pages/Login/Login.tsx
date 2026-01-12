@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Button } from '../../components/ui';
 import { useApp } from '../../context/AppContext';
 import './Login.css';
@@ -46,6 +46,11 @@ export const Login = () => {
 
   return (
     <div className="login-page">
+      {/* Mobile Back Button */}
+      <button onClick={() => navigate('/')} className="mobile-back-btn-global">
+        <ArrowLeft size={20} />
+      </button>
+
       {/* Left Panel - Branding */}
       <div className="login-branding">
         <div className="branding-content">

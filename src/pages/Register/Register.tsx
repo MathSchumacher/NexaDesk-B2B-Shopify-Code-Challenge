@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, User, Building2, Globe, Briefcase, ArrowRight, MapPin, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, Building2, Globe, ArrowRight, MapPin, Loader2, ArrowLeft } from 'lucide-react';
 import { Button } from '../../components/ui';
 import { toast } from 'sonner';
 import './Register.css';
@@ -87,6 +87,11 @@ export const Register = () => {
 
   return (
     <div className="register-page">
+      {/* Mobile Back Button */}
+      <button onClick={() => navigate('/')} className="mobile-back-btn-global">
+        <ArrowLeft size={20} />
+      </button>
+
       {/* Left Panel - Branding */}
       <div className="register-branding">
         <div className="branding-content">

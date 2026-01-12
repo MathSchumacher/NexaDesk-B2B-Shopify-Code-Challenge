@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { Sidebar, Header } from './components/layout';
-import { Login, Dashboard, Inbox, Orders, OrderDetail, Settings, Refunds, Upgrade, Register, Landing, Documentation, DocsIntro, DocsPlatform, DocsPricingApi, DocsStockApi, DocsSupport, ApiSubscription, ApiDashboard, InviteChat, Tickets, Clients, ClientDetail, PriceLists, KnowledgeBase, Quotes } from './pages';
+import { Login, Dashboard, Inbox, Orders, OrderDetail, Settings, Refunds, Upgrade, Register, Landing, Documentation, DocsIntro, DocsPlatform, DocsPricingApi, DocsStockApi, DocsSupport, ApiSubscription, ApiDashboard, InviteChat, Tickets, Clients, ClientDetail, PriceLists, KnowledgeBase, Quotes, Terms, Privacy, Status, Contact } from './pages';
 import { AppProvider } from './context/AppContext';
 import { CommandPalette } from './components/CommandPalette';
 import { LiveActivityPulse } from './components/LiveActivityPulse';
@@ -13,7 +13,7 @@ import './App.css';
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
-  const isAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/landing' || location.pathname.startsWith('/docs') || location.pathname === '/api-subscribe' || location.pathname.startsWith('/invite');
+  const isAuthPage = location.pathname === '/' || location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/landing' || location.pathname.startsWith('/docs') || location.pathname === '/api-subscribe' || location.pathname.startsWith('/invite') || location.pathname === '/terms' || location.pathname === '/privacy' || location.pathname === '/status' || location.pathname === '/contact';
 
   if (isAuthPage) {
     return <>{children}</>;
@@ -76,6 +76,11 @@ function App() {
             <Route path="/price-lists" element={<PriceLists />} />
             <Route path="/quotes" element={<Quotes />} />
             <Route path="/knowledge-base" element={<KnowledgeBase />} />
+            <Route path="/knowledge-base" element={<KnowledgeBase />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/status" element={<Status />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </AppLayout>
