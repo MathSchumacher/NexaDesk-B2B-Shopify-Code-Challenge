@@ -572,7 +572,7 @@
   color: var(--accent-purple);
 }
 
-/* Responsive */
+/* Responsive - Tablet */
 @media (max-width: 1024px) {
   .hero-content, .showcase-container {
     grid-template-columns: 1fr;
@@ -591,6 +591,333 @@
   }
   
   .nav-links {
+    display: none;
+  }
+}
+
+/* Responsive - Mobile (Phones) */
+@media (max-width: 768px) {
+  /* Global Overflow Protection */
+  .landing-page {
+    overflow-x: hidden;
+  }
+
+  /* Navigation */
+  .landing-nav {
+    height: 64px;
+    padding: 0 16px;
+  }
+  
+  .nav-container {
+    padding: 0 12px;
+  }
+  
+  .nav-logo img {
+    height: 32px;
+  }
+
+  .nav-actions .btn {
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+  }
+
+  .nav-actions .btn .btn-text {
+    display: none;
+  }
+  
+  .nav-actions .btn .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  /* Optimize left 'Ghost' button (Welcome/Entrar) on mobile - maybe hide completely to save space or keep as icon? 
+     If we want to keep it: 
+  */
+  .nav-actions .btn:first-child {
+      display: none; /* Hide 'Entrar' or 'Welcome' text button on mobile, usually cleaner. */
+  }
+  
+  /* Ensure the CTA button (Right one) is visible as icon */
+  .nav-actions .btn:last-child {
+      display: flex;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    padding-top: 100px;
+    padding-bottom: 48px;
+  }
+
+  .hero-content {
+    padding: 0 16px;
+    gap: 32px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    line-height: 1.2;
+    word-break: break-word;
+    hyphens: auto;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-image-wrapper {
+    transform: none; /* Remove 3D tilt on mobile */
+    margin: 0 -16px; /* Bleed to edges */
+    border-radius: 0;
+  }
+
+  /* Partners Section */
+  .partners-section {
+    padding: 48px 16px;
+  }
+
+  .partner-logo-item {
+    width: 100px;
+    height: 60px;
+    padding: 8px;
+  }
+
+  /* Features Section */
+  .features-section {
+    padding: 64px 16px;
+  }
+
+  .section-header {
+    max-width: 100%;
+    padding: 0 8px;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+    word-break: break-word;
+  }
+
+  .section-header p {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .feature-card {
+    padding: 24px;
+  }
+
+  .feature-card-image {
+    width: 180px;
+    height: 180px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.125rem;
+  }
+
+  .feature-card p {
+    font-size: 0.875rem;
+    word-break: break-word;
+  }
+
+  /* Showcase Section */
+  .showcase-section {
+    padding: 64px 16px;
+  }
+
+  .showcase-container {
+    gap: 32px;
+  }
+
+  .showcase-text h2 {
+    font-size: 1.5rem;
+    word-break: break-word;
+  }
+
+  .showcase-text p {
+    font-size: 0.9375rem;
+  }
+
+  .showcase-list li {
+    font-size: 0.9375rem;
+  }
+
+  /* AI Operators Section */
+  .ai-operators-section {
+    padding: 64px 16px;
+  }
+
+  .operator-card {
+    padding: 24px;
+  }
+
+  .operator-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .operator-card h3 {
+    font-size: 1.125rem;
+  }
+
+  .operator-capabilities li {
+    font-size: 0.8125rem;
+  }
+
+  /* Solutions Section */
+  .solutions-section {
+    padding: 64px 16px;
+  }
+
+  .solution-card {
+    padding: 24px;
+  }
+
+  .solution-card h3 {
+    font-size: 1rem;
+  }
+
+  .solution-card > p {
+    font-size: 0.8125rem;
+    word-break: break-word;
+  }
+
+  .solution-card ul li {
+    font-size: 0.8125rem;
+  }
+
+  /* Footer */
+  .landing-footer {
+    padding: 32px 16px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  /* ============================================
+     MOBILE BOTTOM NAVIGATION - Premium Sticky Footer
+     ============================================ */
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 20px; /* Floating slightly above bottom like reference app cards often do, or stick to bottom? Reference sticks to bottom. */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    z-index: 1000;
+    
+    /* Deep Dark App Background */
+    background: #0F1115;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    
+    /* Safe area padding */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: 16px;
+    padding-right: 16px;
+    
+    /* Shadow for depth */
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+    
+    /* Alignment */
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .mobile-nav-item {
+    flex: 1;
+    max-width: 120px; /* Limit width */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    
+    /* Reset */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    
+    /* Default State (Inactive) */
+    color: #6c727f; /* Muted grey */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Icons */
+  .mobile-nav-item svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+  }
+  
+  /* Text Label */
+  .mobile-nav-item span {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* Active/Hover State */
+  .mobile-nav-item:active,
+  .mobile-nav-item:hover {
+    color: var(--primary-500); /* NexaDesk Green */
+  }
+
+  .mobile-nav-item:active svg,
+  .mobile-nav-item:hover svg {
+    filter: drop-shadow(0 0 8px rgba(91, 191, 103, 0.4));
+    transform: translateY(-2px);
+  }
+  
+  /* Add a "Pill" background indicator on active if we wanted, 
+     but for 2 items simple text/color shift is clean. 
+     Reference styling implies a shaped background. 
+     Let's add a subtle glow effect behind. 
+  */
+
+  /* Add padding to body to prevent footer overlap */
+  .landing-footer {
+    padding-bottom: 90px !important;
+  }
+}
+
+/* Hide Mobile Nav on Desktop (using min-width to avoid override issues) */
+@media (min-width: 769px) {
+  .mobile-bottom-nav {
     display: none;
   }
 }

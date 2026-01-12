@@ -49,7 +49,7 @@ export const Upgrade = () => {
         { text: '50 E-mails/mês', included: true },
         { text: 'Colaboração B2B', included: false },
         { text: 'Auto-tradução IA', included: false },
-        { text: 'Clientes AI', included: false },
+        { text: 'Copiloto de IA', included: false },
       ]
     },
     {
@@ -68,7 +68,7 @@ export const Upgrade = () => {
         { text: 'E-mails Ilimitados', included: true },
         { text: 'Colaboração B2B', included: true },
         { text: 'Analytics Básico', included: true },
-        { text: 'Clientes AI', included: false },
+        { text: 'Copiloto de IA', included: false },
       ]
     },
     {
@@ -83,8 +83,8 @@ export const Upgrade = () => {
       cta: 'Fazer Upgrade',
       features: [
         { text: 'Tudo do Growth', included: true },
-        { text: 'Simulação de Cliente IA', included: true },
-        { text: 'Assistente de Resposta IA', included: true },
+        { text: 'Triagem Inteligente IA', included: true },
+        { text: 'Respostas Sugeridas', included: true },
         { text: 'Usuários Ilimitados', included: true },
         { text: 'Analytics Avançado', included: true },
         { text: 'Score de Relacionamento', included: true },
@@ -194,20 +194,20 @@ export const Upgrade = () => {
         <h3>Perguntas Frequentes</h3>
         <div className="faq-grid">
           <div className="faq-item">
-            <h4>Como funciona a simulação de cliente AI?</h4>
-            <p>Disponível no plano Pro, utilizamos o Gemini 2.5 Flash para simular clientes reais interagindo com seu suporte, permitindo testar processos e treinar sua equipe.</p>
+            <h4>Como funciona a colaboração em time?</h4>
+            <p>A Inbox Unificada permite que múltiplos agentes trabalhem juntos. Você pode atribuir tickets, deixar notas internas ocultas para o cliente e evitar colisões de resposta em tempo real.</p>
+          </div>
+          <div className="faq-item">
+            <h4>A integração com Shopify é nativa?</h4>
+            <p>Sim! Conectamos diretamente à sua loja para puxar pedidos, status de entrega e perfil do cliente. No plano Enterprise, suportamos também VTEX, Magalu e integração via API personalizada.</p>
           </div>
           <div className="faq-item">
             <h4>O que é a auto-tradução?</h4>
-            <p>No plano Growth e superiores, todas as mensagens recebidas são traduzidas automaticamente para seu idioma, e suas respostas são traduzidas para o idioma do cliente.</p>
+            <p>No plano Growth e superiores, o sistema detecta o idioma do cliente e traduz automaticamente as mensagens, permitindo que sua equipe atenda clientes globais sem barreira linguística.</p>
           </div>
           <div className="faq-item">
-            <h4>Posso cancelar a qualquer momento?</h4>
-            <p>Sim! Você pode fazer upgrade ou downgrade a qualquer momento. Se cancelar, seu acesso continua até o final do ciclo de cobrança.</p>
-          </div>
-          <div className="faq-item">
-            <h4>Oferecem descontos para ONGs?</h4>
-            <p>Sim, oferecemos 50% de desconto para organizações sem fins lucrativos e instituições de ensino. Entre em contato com nosso time de vendas.</p>
+            <h4>Como funciona o SLA garantido?</h4>
+            <p>Para planos Enterprise, garantimos 99.9% de uptime e atendimento prioritário com gerente de conta dedicado para assegurar que sua operação nunca pare.</p>
           </div>
         </div>
       </div>

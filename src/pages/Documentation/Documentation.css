@@ -504,3 +504,389 @@
     padding: 40px 24px;
   }
 }
+
+/* Mobile Styles (Phones) */
+@media (max-width: 768px) {
+  /* Global Overflow Protection */
+  .docs-page {
+    overflow-x: hidden;
+  }
+
+  /* Navigation */
+  .docs-nav {
+    height: auto; 
+    padding: 12px 16px;
+    position: relative; /* For absolute centering context */
+  }
+  
+  .nav-container {
+    padding: 0;
+    justify-content: space-between;
+    gap: 12px;
+  }
+}
+
+/* ============================================
+   GLOBAL LOGO STYLING - Premium Glow (Desktop + Mobile)
+   ============================================ */
+@keyframes logoGlowMinimal {
+  0%, 100% {
+    filter: drop-shadow(0 2px 8px rgba(91, 191, 103, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 4px 16px rgba(91, 191, 103, 0.35))
+            drop-shadow(0 0 2px rgba(255, 255, 255, 0.1));
+  }
+}
+
+.nav-logo {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px 16px !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+  gap: 12px;
+}
+
+.nav-logo:hover {
+  background: var(--bg-secondary) !important;
+  box-shadow: 0 0 0 1px var(--border-subtle) !important;
+}
+
+.nav-logo img {
+  height: 48px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+  animation: logoGlowMinimal 4s ease-in-out infinite !important;
+  display: block;
+}
+
+/* ============================================
+   MOBILE STYLES (Phones <= 768px)
+   ============================================ */
+@media (max-width: 768px) {
+  /* Navigation Container - Mobile overrides */
+  .docs-nav {
+    height: 60px; 
+    padding: 0 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Hide badge on mobile */
+  .docs-badge {
+    display: none;
+  }
+  
+  /* Centered Logo on Mobile */
+  .nav-logo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: auto;
+    /* Adjust padding for mobile centering */
+    padding: 6px 12px !important;
+    margin: 0;
+    gap: 8px; 
+  }
+
+  .nav-logo img {
+    height: 36px !important; 
+  }
+  
+  .docs-badge {
+    display: none;
+  }
+
+  /* Action Buttons Container */
+  .nav-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Align to right since we're hiding left button */
+    align-items: center;
+    position: static;
+    pointer-events: none;
+  }
+  
+  .nav-actions .btn {
+    pointer-events: auto;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+  }
+
+  /* Hide the Left Button (Voltar) on Mobile - Logo already navigates home */
+  .nav-actions .btn:first-child {
+    display: none !important;
+  }
+
+  /* GitHub Button (Right) - Fix visibility */
+  .nav-actions .btn:last-child {
+    display: flex !important;
+    background: #24292e; /* GitHub Dark */
+    border-color: #444;
+  }
+
+  /* Only hide the text span, NOT the icon span */
+  .nav-actions .btn:last-child .btn-text {
+    display: none;
+  }
+  
+  /* Ensure icon wrapper is visible and centered */
+  .nav-actions .btn:last-child .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  /* Force GitHub Icon SVG styling */
+  .nav-actions .btn:last-child svg {
+    color: #fff !important;
+    width: 20px !important;
+    height: 20px !important;
+    opacity: 1 !important;
+    display: block !important;
+    flex-shrink: 0;
+  }
+
+  /* Sidebar - Standard Vertical List (Reverted) */
+  .docs-sidebar {
+    width: 100%;
+    height: auto;
+    padding: 12px 16px;
+    position: relative;
+    top: 0;
+    background: transparent;
+    border-bottom: 1px solid var(--border-subtle);
+    border-right: none;
+  }
+  
+  /* Restore Group Headers */
+  .sidebar-group h3 {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 8px;
+    padding-left: 8px;
+  }
+  
+  /* Restore Link Styles */
+  .sidebar-group a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: normal;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin: 0 0 2px 0;
+    flex-shrink: 1;
+  }
+  
+  .sidebar-group a .sidebar-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .sidebar-group a.active {
+    background: rgba(167, 139, 250, 0.1);
+    color: var(--accent-purple);
+    font-weight: 500;
+  }
+  
+  .sidebar-group a.active .sidebar-icon {
+    opacity: 1;
+  }
+
+  /* Main Content */
+  .docs-content {
+    padding: 24px 16px;
+    max-width: 100%;
+  }
+
+  .docs-content h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+
+  .docs-content h2 {
+    font-size: 1.25rem;
+    margin: 40px 0 16px;
+    padding-bottom: 12px;
+  }
+
+  .docs-content h3 {
+    font-size: 1rem;
+  }
+
+  .docs-content p {
+    font-size: 0.9375rem;
+    word-break: break-word;
+  }
+
+  .lead {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  .breadcrumb {
+    font-size: 11px;
+    flex-wrap: wrap;
+  }
+
+  /* Payment Gate Card */
+  .payment-gate-card {
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .gate-content {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .gate-icon {
+    margin: 0 auto;
+  }
+
+  .gate-content h3 {
+    font-size: 1rem;
+  }
+
+  .refund-notice {
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .payment-gate-card .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Endpoint Cards */
+  .endpoint-header {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .method {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .url {
+    font-size: 12px;
+    word-break: break-all;
+  }
+
+  .endpoint-body {
+    padding: 16px;
+  }
+
+  .params-list {
+    padding-left: 16px;
+  }
+
+  .params-list li {
+    font-size: 13px;
+  }
+
+  /* Code Blocks */
+  .code-block pre {
+    font-size: 11px;
+    padding: 12px;
+    overflow-x: auto;
+  }
+
+  .code-header {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+
+  /* Info Boxes */
+  .info-box,
+  .info-box.success {
+    padding: 12px;
+    font-size: 13px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .alert-box {
+    font-size: 12px;
+    padding: 10px 12px;
+    flex-wrap: wrap;
+  }
+
+  /* Features Grid */
+  .features-grid-docs {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .doc-card {
+    padding: 16px;
+  }
+
+  /* Step Cards */
+  .step-card {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step-number {
+    font-size: 32px;
+  }
+
+  .step-content h4 {
+    font-size: 1rem;
+  }
+
+  /* Integration Section */
+  .integration-section-wrapper {
+    padding: 24px 16px;
+    margin-top: 40px;
+  }
+
+  .section-badge {
+    top: -10px;
+    right: 16px;
+    font-size: 10px;
+    padding: 3px 10px;
+  }
+
+  /* User Guide List */
+  .user-guide-list li {
+    padding-left: 16px;
+    font-size: 14px;
+  }
+}

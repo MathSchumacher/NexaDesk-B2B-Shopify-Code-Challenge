@@ -930,61 +930,441 @@
   color: var(--text-primary);
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .overview-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .analytics-stats-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .api-usage-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  
-  .form-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
+/* ==========================================================================
+   MOBILE APP VERSION - ClientDetail
+   ========================================================================== */
 @media (max-width: 768px) {
+  .client-detail-page {
+    padding: 1rem;
+    padding-bottom: 80px;
+    min-height: auto;
+  }
+
+  /* Header - Profile Card Style */
   .detail-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
   }
-  
+
+  .back-btn {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    padding: 0.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    z-index: 10;
+  }
+
+  .back-btn span {
+    display: none;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .company-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+  }
+
+  .company-info {
+    text-align: center;
+  }
+
+  .company-info h1 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    /* Overflow protection */
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .company-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .company-meta .cnpj {
+    font-size: 0.75rem;
+    word-break: break-all;
+  }
+
+  .company-meta .badges {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
   .header-actions {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
   }
-  
+
+  /* Tabs - Horizontal Scroll Pills */
   .detail-tabs {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin: 0 -1rem 1.5rem -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  
-  .analytics-stats-row {
+
+  .detail-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 0.625rem 1rem;
+    font-size: 0.8125rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* Overview Grid - Stacked Cards */
+  .overview-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
-  
+
+  .info-card,
+  .credit-card-detail,
+  .terms-card,
+  .contact-card {
+    padding: 1rem;
+  }
+
+  .info-card h3,
+  .credit-card-detail h3,
+  .terms-card h3,
+  .contact-card h3 {
+    font-size: 0.9375rem;
+    margin-bottom: 1rem;
+  }
+
+  .info-row {
+    padding: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .info-row .label {
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .info-row .value {
+    font-size: 0.8125rem;
+    /* Overflow protection */
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  /* Credit Card - Compact View */
+  .credit-amounts {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .credit-amounts .amount {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .credit-amounts .amount .label {
+    font-size: 0.5625rem;
+    letter-spacing: 0;
+  }
+
+  .credit-amounts .amount .value {
+    font-size: 0.875rem;
+    /* Overflow protection */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Contact Card */
+  .contact-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .contact-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 1rem;
+  }
+
+  .contact-details .name {
+    font-size: 0.9375rem;
+  }
+
+  .contact-details .email,
+  .contact-details .phone {
+    font-size: 0.75rem;
+    justify-content: center;
+    /* Overflow protection */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  /* Section Headers */
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.125rem;
+  }
+
+  /* Forms - Stacked */
+  .add-form-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
-  
-  .credit-amounts {
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  /* Location & Contact Cards */
+  .locations-grid,
+  .contacts-grid {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
-  
+
+  .location-card,
+  .contact-card-item {
+    padding: 1rem;
+  }
+
+  .location-info h4,
+  .contact-body h4 {
+    font-size: 0.9375rem;
+    /* Overflow protection */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .location-address p {
+    font-size: 0.75rem;
+    word-break: break-word;
+  }
+
+  /* Analytics Section */
+  .analytics-stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .analytics-stat-card {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .analytics-stat-card .stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .analytics-stat-card .stat-value {
+    font-size: 1.25rem;
+    /* Overflow protection */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .analytics-stat-card .stat-label {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+  }
+
+  /* API Usage - Vertical Stack */
+  .api-usage-card {
+    padding: 1rem;
+  }
+
+  .api-usage-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .gauge-circle {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .gauge-value {
+    font-size: 1.5rem;
+  }
+
+  .api-detail-row {
+    padding: 0.75rem;
+  }
+
+  .api-detail-row .label {
+    font-size: 0.75rem;
+  }
+
+  .api-detail-row .value {
+    font-size: 0.8125rem;
+    /* Overflow protection */
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Features Grid */
   .features-grid {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
-  
+
+  .feature-card {
+    padding: 1rem;
+  }
+
+  .feature-info h4 {
+    font-size: 0.9375rem;
+  }
+
+  .feature-info p {
+    font-size: 0.75rem;
+    /* Overflow protection - allow wrapping */
+    word-break: break-word;
+  }
+
+  .feature-meta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    font-size: 0.6875rem;
+  }
+
+  /* Discount Section */
   .current-discount-card {
     flex-direction: column;
     text-align: center;
+    padding: 1.5rem 1rem;
+    gap: 1rem;
+  }
+
+  .discount-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .discount-value {
+    font-size: 2rem;
+  }
+
+  .discount-info h3 {
+    font-size: 1.125rem;
+  }
+
+  .discount-info p {
+    font-size: 0.8125rem;
+  }
+
+  .rules-title {
+    font-size: 1rem;
+  }
+
+  .rules-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .rule-card {
+    padding: 1rem;
+  }
+
+  .rule-header h4 {
+    font-size: 0.875rem;
+    /* Overflow protection */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 70%;
+  }
+
+  .rule-description {
+    font-size: 0.75rem;
+    word-break: break-word;
+  }
+
+  /* Empty States */
+  .empty-state,
+  .empty-features {
+    padding: 3rem 1rem;
+  }
+
+  .empty-state h3,
+  .empty-features h4 {
+    font-size: 1rem;
+  }
+
+  .empty-state p,
+  .empty-features p {
+    font-size: 0.8125rem;
+  }
+
+  /* Global overflow protection for all text within cards */
+  .client-detail-page .card,
+  .client-detail-page [class*="-card"] {
+    overflow: hidden;
+  }
+
+  .client-detail-page p,
+  .client-detail-page span {
+    word-break: break-word;
   }
 }
 

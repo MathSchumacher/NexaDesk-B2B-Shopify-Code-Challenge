@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Search, Clock, AlertCircle, CheckCircle2, Send, User, Plus, Calendar, Filter, X } from 'lucide-react';
+import { Search, Clock, AlertCircle, CheckCircle2, Send, User, Plus, Calendar, Filter, X, ArrowLeft } from 'lucide-react';
 import { Card, Badge, Button, Modal, ModalFooter, Input } from '../../components/ui';
 import { supportTickets, type TicketPriority, type TicketStatus } from '../../data/mockData';
 import { toast } from 'sonner';
@@ -12,8 +12,15 @@ export const Tickets = () => {
   const { state: { user } } = useApp();
   const location = useLocation();
   const [tickets, setTickets] = useState(supportTickets);
-  const [selectedTicket, setSelectedTicket] = useState(tickets[0]);
+  const [selectedTicket, setSelectedTicket] = useState<any | null>(null);
   const [replyText, setReplyText] = useState('');
+
+  // Update useEffect to select first ticket ONLY on desktop mount if none selected
+  useEffect(() => {
+    if (window.innerWidth > 768 && !selectedTicket && tickets.length > 0) {
+      setSelectedTicket(tickets[0]);
+    }
+  }, [tickets, selectedTicket]);
 
   // Filtering State
   const [searchQuery, setSearchQuery] = useState('');
@@ -294,7 +301,9 @@ export const Tickets = () => {
     setSelectedTicket(updatedTicket as any);
     setTickets(prev => prev.map(t => t.id === updatedTicket.id ? updatedTicket : t) as any);
     setReplyText('');
-    toast.success('Resposta enviada!');
+    if (window.innerWidth > 768) {
+      toast.success('Resposta enviada!');
+    }
 
     try {
       const storageKey = `b2b_tickets_${user.role === 'support' ? 'support' : 'client'}`;
@@ -625,13 +634,22 @@ export const Tickets = () => {
           </div>
         </Card>
 
-        {/* Ticket Detail */}
-        {selectedTicket && (
+        {/* Ticket Detail or Empty State */}
+        {selectedTicket ? (
           <Card className="ticket-detail-panel" padding="none">
             <div className="detail-header">
-              <div className="detail-title">
-                <h2>{selectedTicket.subject}</h2>
-                <span className="detail-client">{selectedTicket.client.name}</span>
+              <div className="detail-title-group">
+                <Button 
+                  variant="ghost" 
+                  className="mobile-back-btn"
+                  onClick={() => setSelectedTicket(null)}
+                >
+                  <ArrowLeft size={20} />
+                </Button>
+                <div className="detail-title">
+                  <h2>{selectedTicket.subject}</h2>
+                  <span className="detail-client">{selectedTicket.client.name}</span>
+                </div>
               </div>
               <div className="detail-actions">
                 {getPriorityBadge(selectedTicket.priority)}
@@ -671,7 +689,7 @@ export const Tickets = () => {
                 </div>
               </div>
 
-              {selectedTicket.messages.map((msg) => (
+              {selectedTicket.messages.map((msg: any) => (
                 <div key={msg.id} className={`ticket-message ${msg.from === 'ai-agent' ? 'ai' : msg.from}`}>
                   <div className="message-avatar">
                    {msg.from === 'ai-agent' ? '🤖' : <User size={16} />}
@@ -691,6 +709,13 @@ export const Tickets = () => {
             </div>
 
             <div className="reply-box">
+              <Button 
+                variant="ghost" 
+                className="mobile-reply-back-btn"
+                onClick={() => setSelectedTicket(null)}
+              >
+                <ArrowLeft size={20} />
+              </Button>
               <textarea 
                 placeholder="Escreva sua resposta..." 
                 value={replyText}
@@ -702,10 +727,20 @@ export const Tickets = () => {
                   disabled={!replyText.trim()}
                   leftIcon={<Send size={16} />}
                 >
-                  Enviar Resposta
+                  <span className="desktop-text">Enviar Resposta</span>
                 </Button>
               </div>
             </div>
+          </Card>
+        ) : (
+          <Card className="ticket-detail-panel empty" padding="none">
+             <div className="desktop-empty-state">
+                <div className="empty-icon-circle">
+                  <Send size={48} />
+                </div>
+                <h3>Selecione um Ticket</h3>
+                <p>Escolha um ticket da lista para ver os detalhes e responder.</p>
+             </div>
           </Card>
         )}
       </div>

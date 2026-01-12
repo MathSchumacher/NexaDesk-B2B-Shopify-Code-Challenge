@@ -373,6 +373,7 @@
 }
 
 /* Responsive */
+/* Responsive & Mobile Redesign */
 @media (max-width: 1024px) {
   .sidebar {
     transform: translateX(calc(-100% - 1rem));
@@ -380,11 +381,14 @@
     bottom: 0;
     left: 0;
     border-radius: 0;
+    height: 100vh;
+    border: none;
   }
   
   .sidebar.open {
     transform: translateX(0);
-    width: var(--sidebar-width);
+    width: 280px; /* Standard mobile drawer width, cleaner than var */
+    box-shadow: 0 0 40px rgba(0,0,0,0.5); /* Deep shadow for overlay feel */
   }
   
   .sidebar.open .nav-label,
@@ -397,5 +401,212 @@
     visibility: visible;
     position: relative;
     height: auto;
+  }
+}
+
+/* Mobile-Specific Redesign (Phone) - Compact with Text */
+@media (max-width: 768px) {
+  .sidebar.open {
+    width: 200px;
+    max-width: 200px;
+    padding: 0;
+    border-right: 1px solid var(--border-subtle);
+  }
+  
+  /* Restore Text Visibility */
+  .sidebar.open .nav-label,
+  .sidebar.open .nav-badge {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+    width: auto;
+  }
+  
+  /* Hide Section Titles */
+  .sidebar.open .nav-section-title {
+    display: none;
+  }
+  
+  /* Hide AI Activity Panel completely */
+  .ai-logs-section {
+    display: none !important;
+  }
+
+  /* Upgrade Card - Visible as 'Assinaturas' button matching nav items */
+  .sidebar-footer {
+    display: block;
+    padding: 12px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .sidebar-footer {
+    padding: 12px 12px;
+  }
+
+  .upgrade-card {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 12px;
+    height: 44px;
+    background: transparent !important; /* FORCE TRANSPARENT */
+    border: none !important; /* FORCE NO BORDER */
+    border-radius: 8px;
+    gap: 12px;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: none !important; /* NO SHADOW */
+    transition: all var(--transition-fast);
+  }
+  
+  .upgrade-card:active {
+    background: var(--bg-hover) !important;
+  }
+
+  .upgrade-card:hover {
+    background: var(--bg-hover) !important;
+    color: var(--text-primary);
+  }
+  
+  .upgrade-icon {
+    width: 20px;
+    height: 20px;
+    background: transparent !important;
+    color: var(--text-secondary);
+    box-shadow: none !important;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+  }
+  
+  .upgrade-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .upgrade-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  
+  .upgrade-content h4 {
+    font-size: 0.9375rem; 
+    font-weight: 500;
+    margin: 0;
+    color: var(--text-secondary);
+  }
+  
+  .upgrade-card:hover .upgrade-content h4,
+  .upgrade-card:hover .upgrade-icon {
+    color: var(--text-primary);
+  }
+  
+  .upgrade-content p {
+    display: none;
+  }
+  
+  .upgrade-btn {
+    display: none;
+  }
+
+  /* Logo Area - Fix Distortion */
+  .sidebar-logo {
+    padding: 1.25rem 1rem;
+    justify-content: flex-start;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  
+  .logo-icon {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon img {
+    /* Set dimensions to auto to respect aspect ratio, but constrain height */
+    width: auto !important;
+    height: 32px !important; /* Slightly smaller to fit header */
+    max-width: 140px;
+    border-radius: 0; /* Remove radius if it's cutting off corners of text logo */
+    object-fit: contain;
+  }
+
+  /* Navigation List */
+  .sidebar-nav {
+    padding: 1rem 0.75rem;
+    align-items: stretch;
+  }
+  
+  .nav-section {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .nav-list {
+    align-items: stretch;
+    gap: 4px;
+  }
+  
+  .nav-item {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 8px;
+    margin: 0;
+    gap: 12px;
+  }
+
+  .nav-item .nav-icon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .nav-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+  
+  /* Active State - Soft Highlight */
+  .nav-item.active {
+    background: rgba(91, 191, 103, 0.1); 
+    color: var(--primary-500);
+    box-shadow: none;
+  }
+  
+  .nav-item.active::before {
+    display: block;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 20px;
+    background: var(--primary-500);
+    border-radius: 0 4px 4px 0;
+  }
+  
+  .nav-item.active .nav-icon {
+    color: var(--primary-500);
+  }
+
+  /* Toggle button - Adjusted position */
+  .sidebar-toggle {
+    display: flex;
+    position: absolute;
+    right: -12px;
+    top: 1.5rem;
+    width: 24px;
+    height: 24px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 50;
   }
 }

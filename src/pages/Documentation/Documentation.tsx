@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Book, Layers, HelpCircle, DollarSign, Package, LayoutDashboard } from 'lucide-react';
+import { ArrowLeft, Book, Layers, HelpCircle, DollarSign, Package, LayoutDashboard, Github } from 'lucide-react';
 import { Button } from '../../components/ui';
 import { useApp } from '../../context/AppContext';
 import './Documentation.css';
@@ -14,6 +15,55 @@ export const Documentation = () => {
     // This side-effect should theoretically be in useEffect, but for simplicity in this turn we handle via routing or conditional rendering. 
     // Ideally App.tsx handles the redirect, but let's keep it robust.
   }
+
+  // eBook-style Swipe Navigation Logic
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  // Define route order for loop navigation
+  const docRoutes = [
+    '/docs/intro',
+    '/docs/platform',
+    '/docs/pricing-api',
+    '/docs/stock-api',
+    '/docs/support'
+  ];
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe || isRightSwipe) {
+      const currentIndex = docRoutes.findIndex(route => location.pathname.includes(route));
+      if (currentIndex === -1) return;
+
+      let nextIndex;
+      if (isLeftSwipe) {
+        // Next Page (Loop: last -> first)
+        nextIndex = currentIndex === docRoutes.length - 1 ? 0 : currentIndex + 1;
+      } else {
+        // Prev Page (Loop: first -> last)
+        nextIndex = currentIndex === 0 ? docRoutes.length - 1 : currentIndex - 1;
+      }
+      
+      // Add slide animation class? Logic handled by CSS or just route change
+      navigate(docRoutes[nextIndex]);
+    }
+  };
 
   return (
     <div className="docs-page">
@@ -33,7 +83,7 @@ export const Documentation = () => {
                 Voltar para Nível Usuário
               </Button>
             )}
-            <Button variant="secondary" onClick={() => window.open('https://github.com/nexadesk/sdk', '_blank')}>
+            <Button variant="secondary" leftIcon={<Github size={16} />} onClick={() => window.open('https://github.com/nexadesk/sdk', '_blank')}>
               SDK Node.js
             </Button>
           </div>
@@ -72,7 +122,12 @@ export const Documentation = () => {
           </div>
         </aside>
 
-        <main className="docs-content">
+        <main 
+          className="docs-content" 
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           <Outlet />
         </main>
       </div>

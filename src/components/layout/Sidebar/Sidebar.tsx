@@ -228,15 +228,15 @@ export const Sidebar = ({ isOpen, onToggle }: SidebarProps) => {
 
       {/* Upgrade Card */}
       <div className="sidebar-footer">
-        <div className="upgrade-card">
+        <div className="upgrade-card" onClick={() => navigate('/upgrade')}>
           <div className="upgrade-icon">
             <ShoppingBag size={20} />
           </div>
           <div className="upgrade-content">
-            <h4>Shopify Plus</h4>
-            <p>Conecte sua loja Enterprise</p>
+            <h4>Assinaturas</h4>
+            <p>Gerencie seu plano</p>
           </div>
-          <button className="upgrade-btn" onClick={() => navigate('/upgrade')}>Conectar</button>
+          <button className="upgrade-btn">Ver</button>
         </div>
       </div>
     </aside>

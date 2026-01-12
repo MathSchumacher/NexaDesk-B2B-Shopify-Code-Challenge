@@ -28,7 +28,7 @@ export const Landing = () => {
                 Bem vindo, {user.name.split(' ')[0]}
               </Button>
             ) : (
-              <Button variant="ghost" onClick={() => navigate('/login')}>
+              <Button variant="ghost" onClick={() => navigate('/login')} rightIcon={<ArrowRight size={16} />}>
                 Entrar
               </Button>
             )}
@@ -38,7 +38,7 @@ export const Landing = () => {
                  Acessar Plataforma
                </Button>
             ) : (
-              <Button onClick={() => navigate('/register')}>
+              <Button onClick={() => navigate('/register')} rightIcon={<ArrowRight size={16} />}>
                 Começar Grátis
               </Button>
             )}
@@ -255,6 +255,25 @@ export const Landing = () => {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Bottom Navigation - Sticky Footer Menu */}
+      <nav className="mobile-bottom-nav">
+        <button className="mobile-nav-item" onClick={() => navigate('/docs')}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          <span>Documentação</span>
+        </button>
+        <button className="mobile-nav-item" onClick={() => navigate('/login')}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+          <span>Login</span>
+        </button>
+      </nav>
     </div>
   );
 };
