@@ -1,0 +1,53 @@
+.card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-base);
+}
+
+/* Padding Variants */
+.card-padding-none { padding: 0; }
+.card-padding-sm { padding: var(--space-3); }
+.card-padding-md { padding: var(--space-5); }
+.card-padding-lg { padding: var(--space-8); }
+
+/* Hoverable */
+.card-hoverable:hover {
+  border-color: var(--border-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Clickable */
+.card-clickable {
+  cursor: pointer;
+}
+
+.card-clickable:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}
+
+/* Card Parts */
+.card-header {
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: var(--space-4);
+}
+
+.card-header h3,
+.card-header h4 {
+  margin: 0;
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-footer {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+  margin-top: var(--space-4);
+}

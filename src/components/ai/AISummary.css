@@ -1,0 +1,96 @@
+.ai-summary {
+  padding: var(--space-4);
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(244, 114, 182, 0.08) 100%);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+}
+
+.ai-summary-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.ai-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-pink) 100%);
+  border-radius: var(--radius-sm);
+  color: white;
+}
+
+.ai-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-purple);
+}
+
+.ai-summary-text {
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.ai-summary-text strong {
+  color: var(--text-primary);
+}
+
+.priority-high {
+  color: var(--error);
+  font-weight: var(--font-semibold);
+}
+
+/* AI Tags */
+.ai-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px var(--space-2);
+  font-size: 0.625rem;
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+}
+
+/* AI Status Indicator */
+.ai-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+}
+
+.ai-status-indicator.online .status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--success);
+}
+
+.ai-status-indicator.offline .status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--text-tertiary);
+  border-radius: 50%;
+}
+
+.ai-status-indicator .status-text {
+  color: var(--text-secondary);
+}
+
+.ai-status-indicator.online .status-text {
+  color: var(--success);
+}

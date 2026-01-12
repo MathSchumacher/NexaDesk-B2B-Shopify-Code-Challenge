@@ -1,0 +1,38 @@
+/* App Layout Styles */
+.app-layout {
+  min-height: 100vh;
+  /* background: var(--bg-primary); Removed to show global background */
+}
+
+.main-content {
+  margin-left: calc(var(--sidebar-width) + 2rem);
+  margin-top: calc(var(--header-height) + 2rem);
+  padding: var(--space-8);
+  padding-top: var(--space-6);
+  min-height: calc(100vh - var(--header-height) - 2rem);
+  transition: margin-left var(--transition-spring);
+}
+
+.app-layout.sidebar-collapsed .main-content {
+  margin-left: calc(var(--sidebar-collapsed) + 2rem);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: var(--space-5);
+  }
+  
+  .app-layout.sidebar-open .main-content {
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: var(--space-4);
+    margin-top: calc(var(--header-height) + 1.5rem);
+  }
+}
