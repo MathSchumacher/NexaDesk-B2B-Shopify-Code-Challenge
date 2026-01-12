@@ -235,11 +235,10 @@ export const Landing = () => {
         <div className="partners-carousel-wrapper">
           <div className="partners-carousel-mask">
             <div className="partners-carousel-track">
-              {/* First set */}
-              <a href="https://www.shopify.com/plus" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/shopifyplus.png" alt="Shopify Plus" /></a>
+              <a href="https://www.shopify.com/plus" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-shopify"><img src="/partner-logos/shopifyplus.png" alt="Shopify Plus" /></a>
               <a href="https://aws.amazon.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/AWS.png" alt="AWS" /></a>
-              <a href="https://www.adobe.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/adobe.png" alt="Adobe" /></a>
-              <a href="https://www.bigcommerce.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/bigcommerce.png" alt="BigCommerce" /></a>
+              <a href="https://www.adobe.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-adobe"><img src="/partner-logos/adobe.png" alt="Adobe" /></a>
+              <a href="https://www.bigcommerce.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-bigcommerce"><img src="/partner-logos/bigcommerce.png" alt="BigCommerce" /></a>
               <a href="https://www.semrush.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/semrush.png" alt="Semrush" /></a>
               <a href="https://business.trustpilot.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/Trustpilot.png" alt="Trustpilot" /></a>
               <a href="https://www.contentful.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/contentful.png" alt="Contentful" /></a>
@@ -247,15 +246,15 @@ export const Landing = () => {
               <a href="https://www.klevu.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/klevu.png" alt="Klevu" /></a>
               <a href="https://www.signifyd.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/signifyd.png" alt="Signifyd" /></a>
               <a href="https://netalico.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/netalico.png" alt="Netalico" /></a>
-              <a href="https://eastsideco.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/Eastsideco.png" alt="Eastsideco" /></a>
-              <div className="partner-logo-item"><img src="/partner-logos/b2bglobal.png" alt="B2B Global" /></div>
-              <a href="https://www.alcerocks.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/alcerocks.png" alt="Alce Rocks" /></a>
+              <a href="https://eastsideco.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-eastsideco"><img src="/partner-logos/Eastsideco.png" alt="Eastsideco" /></a>
+              <div className="partner-logo-item partner-b2bglobal"><img src="/partner-logos/b2bglobal.png" alt="B2B Global" /></div>
+              <a href="https://www.alcerocks.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-alcerocks"><img src="/partner-logos/alcerocks.png" alt="Alce Rocks" /></a>
               
               {/* Duplicate set for infinite scroll */}
-              <a href="https://www.shopify.com/plus" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/shopifyplus.png" alt="Shopify Plus" /></a>
+              <a href="https://www.shopify.com/plus" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-shopify"><img src="/partner-logos/shopifyplus.png" alt="Shopify Plus" /></a>
               <a href="https://aws.amazon.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/AWS.png" alt="AWS" /></a>
-              <a href="https://www.adobe.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/adobe.png" alt="Adobe" /></a>
-              <a href="https://www.bigcommerce.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/bigcommerce.png" alt="BigCommerce" /></a>
+              <a href="https://www.adobe.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-adobe"><img src="/partner-logos/adobe.png" alt="Adobe" /></a>
+              <a href="https://www.bigcommerce.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-bigcommerce"><img src="/partner-logos/bigcommerce.png" alt="BigCommerce" /></a>
               <a href="https://www.semrush.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/semrush.png" alt="Semrush" /></a>
               <a href="https://business.trustpilot.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/Trustpilot.png" alt="Trustpilot" /></a>
               <a href="https://www.contentful.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/contentful.png" alt="Contentful" /></a>
@@ -263,9 +262,9 @@ export const Landing = () => {
               <a href="https://www.klevu.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/klevu.png" alt="Klevu" /></a>
               <a href="https://www.signifyd.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/signifyd.png" alt="Signifyd" /></a>
               <a href="https://netalico.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/netalico.png" alt="Netalico" /></a>
-              <a href="https://eastsideco.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/Eastsideco.png" alt="Eastsideco" /></a>
-              <div className="partner-logo-item"><img src="/partner-logos/b2bglobal.png" alt="B2B Global" /></div>
-              <a href="https://www.alcerocks.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item"><img src="/partner-logos/alcerocks.png" alt="Alce Rocks" /></a>
+              <a href="https://eastsideco.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-eastsideco"><img src="/partner-logos/Eastsideco.png" alt="Eastsideco" /></a>
+              <div className="partner-logo-item partner-b2bglobal"><img src="/partner-logos/b2bglobal.png" alt="B2B Global" /></div>
+              <a href="https://www.alcerocks.com" target="_blank" rel="noopener noreferrer" className="partner-logo-item partner-alcerocks"><img src="/partner-logos/alcerocks.png" alt="Alce Rocks" /></a>
             </div>
           </div>
         </div>
