@@ -149,7 +149,7 @@ export const Tickets = () => {
       const combined = Array.from(ticketMap.values());
       setTickets(combined as any);
       // ... selected ticket update logic ...
-      setSelectedTicket(prev => {
+      setSelectedTicket((prev: any) => {
         if (!prev) return prev;
         const updatedVersion = combined.find(t => t.id === prev.id);
         if (updatedVersion && updatedVersion.messages.length !== prev.messages.length) return updatedVersion as any;
@@ -172,12 +172,13 @@ export const Tickets = () => {
       const socket = connectSocket();
       if (user.role === 'support') {
           socket?.emit('join-support');
-          socket?.on('initial-tickets', (serverTickets: any[]) => {
-            setTickets(prev => {
+          socket?.on('initial-tickets', (data: unknown) => {
+             const serverTickets = data as any[];
+             setTickets((prev: any[]) => {
                 const combined = [...serverTickets, ...prev];
                 const unique = Array.from(new Map(combined.map(t => [t.id, t])).values());
                 return unique as any;
-            });
+             });
           });
           socket?.on('new-ticket', (newTicket: any) => {
               toast.info('Novo Ticket Recebido!', { description: `Prioridade: ${newTicket.priority.toUpperCase()} - ${newTicket.subject}` });
@@ -384,7 +385,7 @@ export const Tickets = () => {
     toast.success(`Ticket #${nextDisplayId} Criado!`);
 
     try {
-      console.log('Saving ticket to localStorage:', createdTicket);
+
       const storageKey = `b2b_tickets_${user.role === 'support' ? 'support' : 'client'}`;
       const stored = window.localStorage.getItem(storageKey);
       let currentData = [];

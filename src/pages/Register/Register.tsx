@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, User, Building2, Globe, ArrowRight, MapPin, Loader2, ArrowLeft } from 'lucide-react';
-import { Button } from '../../components/ui';
+import { Button, Select } from '../../components/ui';
 import { toast } from 'sonner';
+import countryList from 'country-list';
 import './Register.css';
 
 export const Register = () => {
   const navigate = useNavigate();
+  // Get all countries and sort by name
+  const countries = countryList.getData().sort((a: { name: string }, b: { name: string }) => a.name.localeCompare(b.name));
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -177,27 +181,19 @@ export const Register = () => {
             <div className="form-group">
               <label htmlFor="country">País de Origem</label>
               <div className="input-with-icon">
-                <Globe size={18} className="input-icon" />
-                <select
-                  id="country"
+                <Select
+                  options={[
+                    { value: 'br', label: 'Brasil (Destaque)', image: 'https://flagcdn.com/w20/br.png' },
+                    ...countries.map(c => ({
+                      value: c.code.toLowerCase(),
+                      label: c.name,
+                      image: `https://flagcdn.com/w20/${c.code.toLowerCase()}.png`
+                    }))
+                  ]}
                   value={formData.country}
-                  onChange={handleChange}
-                  className="input-select"
-                  style={{
-                    width: '100%',
-                    height: '48px',
-                    padding: '0.75rem 1rem 0.75rem 2.75rem',
-                    background: 'var(--bg-elevated)',
-                    border: '1px solid var(--border-primary)',
-                    borderRadius: 'var(--radius-lg)',
-                    color: 'var(--text-primary)',
-                    fontSize: 'var(--font-size-base)',
-                    appearance: 'none'
-                  }}
-                >
-                  <option value="br">Brasil</option>
-                  <option value="other">Outro</option>
-                </select>
+                  onChange={(value) => handleChange({ target: { id: 'country', value } } as any)}
+                  placeholder="Selecione um país"
+                />
               </div>
             </div>
 

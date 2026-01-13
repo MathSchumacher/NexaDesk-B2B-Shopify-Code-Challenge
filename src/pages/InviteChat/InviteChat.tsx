@@ -62,13 +62,13 @@ export const InviteChat = () => {
 
       // Listen for chat history
       onChatHistory((history) => {
-        console.log('[InviteChat] Received history:', history);
+
         setMessages(history);
       });
 
       // Listen for new messages
       onNewMessage((message) => {
-        console.log('[InviteChat] New message:', message);
+
         setMessages(prev => [...prev, message]);
       });
     } catch (e) {

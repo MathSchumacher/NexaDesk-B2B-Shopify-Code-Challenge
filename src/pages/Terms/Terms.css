@@ -1,0 +1,56 @@
+/* Terms.css */
+.terms-page {
+  min-height: 100vh;
+  background-color: #0f172a;
+  color: white;
+  padding: 40px 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.terms-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.terms-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 48px;
+}
+
+.terms-content {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.sub-section {
+  margin-bottom: 32px;
+}
+
+.sub-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: white;
+}
+
+.terms-text {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  font-size: 15px;
+  margin: 0;
+}
+
+.terms-footer {
+  margin-top: 40px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 13px;
+}

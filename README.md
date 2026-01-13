@@ -57,6 +57,17 @@ src/
 └── services/            # Mock API with localStorage
 ```
 
+
+---
+
+## 🔒 Security & Best Practices
+
+As a B2B SaaS platform, we prioritize security:
+- **API Key Encryption**: Sensitive keys (Gemini, DeepL) are encrypted at rest using a custom XOR cipher (`scripts/encrypt_key.js`).
+- **CSP Headers**: Strict Content-Security-Policy implemented in `index.html` to prevent XSS.
+- **Input Sanitization**: Codebase is free of `dangerouslySetInnerHTML`.
+- **Rate Limiting**: (Planned for Production) API routes should be rate-limited on the edge.
+
 ---
 
 ## 🎨 Brand

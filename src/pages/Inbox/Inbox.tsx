@@ -21,7 +21,11 @@ import { AgentAssignment } from '../../components/AgentAssignment';
 import { CustomTags } from '../../components/CustomTags';
 import { supportInbox, storeCustomerEmails } from '../../data/mockData';
 import { generateCustomerResponse, getTypingDelay, getResponseDelay } from '../../services/aiCustomerService';
-import { connectSocket, onInboxUpdate } from '../../services/socketService';
+import { 
+  connectSocket, 
+  onInboxUpdate, 
+  type InboxUpdateData 
+} from '../../services/socketService';
 import { translateText } from '../../services/translateService';
 import './Inbox.css';
 
@@ -121,7 +125,7 @@ export const Inbox = () => {
       const localData = JSON.parse(localStorage.getItem(storageKey) || '[]');
       
       if (localData.length > 0 && localData.length !== previousCount) {
-        console.log('[Inbox] New messages detected from localStorage:', localData);
+        
         if (previousCount > 0) {
           toast.info(`Nova mensagem de ${localData[0]?.from?.name || 'Convidado'}`, {
             description: localData[0]?.preview?.substring(0, 50) + '...'
@@ -129,7 +133,7 @@ export const Inbox = () => {
         }
         previousCount = localData.length;
       }
-      
+
     };
 
     loadEmails();
@@ -137,23 +141,23 @@ export const Inbox = () => {
     // Listen for storage events (updates from other tabs)
     const handleStorageChange = () => loadEmails();
     window.addEventListener('storage', handleStorageChange);
-    
+
     // Listen for custom event (updates from same tab, e.g., InviteChat modal)
     const handleInboxUpdate = () => {
-      console.log('[Inbox] Received inbox-update event');
+
       loadEmails();
     };
     window.addEventListener('inbox-update', handleInboxUpdate);
-    
+
     // Listen for WebSocket updates (cross-browser/cross-tab)
     try {
       connectSocket();
-      onInboxUpdate((data: any) => {
-        console.log('[Inbox] WebSocket inbox-update:', data);
-        
+      onInboxUpdate((data: InboxUpdateData) => {
+
+
         // Create an email entry from the WebSocket data and save to localStorage
-        const newEmail = {
-          id: `ws-${Date.now()}`,
+        const newEmail: Email = {
+          id: data.emailId || `ws-${Date.now()}`,
           from: data.from || { name: 'Convidado', email: 'guest@chat.com' },
           to: { name: user.name || 'Você', email: user.email || 'you@store.com' },
           subject: `Mensagem via Link de Convite (${data.code})`,
@@ -356,10 +360,6 @@ export const Inbox = () => {
     }
   };
 
-  // Helper to get cached translation or original
-  const getDisplayContent = (text: string, id: string) => {
-    return showTranslation && translations[id] ? translations[id] : text;
-  };
 
   const handleSendReply = async () => {
     if (!replyText.trim() || !selectedEmail || isSending) return;
