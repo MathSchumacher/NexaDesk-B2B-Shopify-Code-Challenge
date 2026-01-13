@@ -25,8 +25,9 @@ export const Landing = () => {
   // Main container ref for GSAP context
   const heroRef = useRef<HTMLElement>(null);
 
-  // Initialize smooth scrolling
-  useSmoothScroll({ lerp: 0.08, duration: 1.4 });
+  // Initialize smooth scrolling - DISABLED for direct scroll-animation sync
+  // Lenis adds lerp delay which breaks 1:1 scroll-animation relationship
+  useSmoothScroll({ lerp: 0.08, duration: 1.4, enabled: false });
 
   // Handle click outside dropdown (both desktop and mobile)
   useEffect(() => {
@@ -66,47 +67,10 @@ export const Landing = () => {
         .to('.hero-cta', { opacity: 1, y: 0, duration: 0.6 }, '-=0.3')
         .to('.hero-image', { opacity: 1, y: 0, scale: 1, duration: 1 }, '-=0.6');
 
-      // Feature cards scroll animation
-      const featureCards = gsap.utils.toArray('.feature-card');
-      featureCards.forEach((card, i) => {
-        gsap.fromTo(card as Element, 
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            delay: i * 0.1,
-            scrollTrigger: {
-              trigger: card as Element,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
-            },
-          }
-        );
-      });
-
-      // AI Operator cards scroll animation
-      const operatorCards = gsap.utils.toArray('.operator-card');
-      operatorCards.forEach((card, i) => {
-        gsap.fromTo(card as Element, 
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.6,
-            delay: i * 0.1,
-            scrollTrigger: {
-              trigger: card as Element,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
-            },
-          }
-        );
-      });
 
       // Note: Partner carousel animation removed - using pure CSS animation instead
 
-      // Showcase section image animation (building.jpg)
+      // Showcase section image animation (building.jpg) - scrub for continuous scroll-linked animation
       gsap.fromTo('.showcase-image', 
         { opacity: 0, scale: 0.9, y: 30 },
         {
@@ -114,11 +78,12 @@ export const Landing = () => {
           scale: 1,
           y: 0,
           duration: 1,
-          ease: 'power2.out',
+          ease: 'none', // Linear easing works best with scrub
           scrollTrigger: {
             trigger: '.showcase-section',
-            start: 'top 75%',
-            toggleActions: 'play none none none',
+            start: 'top 85%',
+            end: 'top 65%',
+            scrub: 0.05, // Near-instant scroll response
           },
         }
       );
@@ -306,8 +271,6 @@ export const Landing = () => {
         </ScrollReveal>
       </section>
 
-
-
       {/* AI Operators Section (Auxiliary/Boost) */}
       <section id="ai-operators" className="ai-operators-section">
         <div className="section-header">
@@ -379,7 +342,7 @@ export const Landing = () => {
               intensity={20}
             />
           </div>
-          <div className="showcase-text">
+          <ScrollReveal className="showcase-text" animation="fadeUp" delay={0.2} duration={0.8}>
             <h2>Tecnologia Enterprise para o Futuro do B2B</h2>
             <p style={{ color: 'white' }}>
               Nossa sede tecnológica desenvolve soluções que processam milhões em transações
@@ -399,7 +362,7 @@ export const Landing = () => {
                 <span>Segurança de nível bancário (SOC2)</span>
               </li>
             </ul>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -419,7 +382,6 @@ export const Landing = () => {
         </div>
       </footer>
 
-      {/* Mobile Bottom Navigation - Sticky Footer Menu */}
       {/* Mobile Bottom Navigation - Sticky Footer Menu */}
       <nav className="mobile-bottom-nav">
         
@@ -470,4 +432,3 @@ export const Landing = () => {
     </div>
   );
 };
-

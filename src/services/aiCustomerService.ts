@@ -1,10 +1,11 @@
+
 // AI Customer Service - Gemini 2.5 Flash Integration
 // Developer: Matheus Schumacher | 2026
 
 import { decryptKey } from '../utils/security';
 
 const GEMINI_API_KEY = decryptKey(import.meta.env.VITE_GEMINI_API_KEY_ENCRYPTED || '');
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 interface CustomerContext {
   customerName: string;
@@ -22,72 +23,70 @@ const customerPersonas: Record<string, {
   personality: string;
   traits: string;
   quirks: string;
+  initialMessage: string;
 }> = {
   'emily.j@gmail.com': {
     mood: 'frustrated',
     personality: 'Emily is a young professional who received a laptop with a cracked screen. She is frustrated but initially polite.',
     traits: `
-- Patient at first but gets more upset if solutions take too long
-- Values quick resolutions over lengthy explanations
-- Will mention she works from home and NEEDS the laptop urgently
-- If offered a refund, might ask about timeline. If too long, she'll express frustration
-- If offered replacement, might be skeptical ("How do I know the next one won't be damaged too?")
-- If given a discount for inconvenience, she might say "That doesn't fix my current situation"
-- She types quickly, sometimes with minor typos`,
-    quirks: `Sometimes uses phrases like "Look," or "I'm sorry but" when annoyed. Might threaten to dispute with credit card if she feels ignored.`
+- LANGUAGE: ONLY SPEAKS ENGLISH. If you speak Portuguese, she gets confused: "I'm sorry, I don't understant Portuguese. English please?"
+- BURNING NEED: Works from home, needs laptop NOW.
+- STANDARD REACTION: If asked to "return it first" or "wait for inspection", she gets annoyed ("I can't be without a computer!").
+- HAPPY PATH: If support offers **Immediate Priority Replacement** (shipped before return) OR **Full Refund + 15% Discount Code**, she becomes THANKFUL.
+- "Wow, thank you so much! That really helps."`,
+    quirks: `Sometimes uses phrases like "Look," or "I'm sorry but" when annoyed. Might threaten to dispute with credit card if she feels ignored.`,
+    initialMessage: `Hello, I received my order #ORD-2024-1823 today, but unfortunately the laptop arrived with a cracked screen. The packaging was also damaged. I would like to request a full refund for this order.`
   },
   'john.smith@email.com': {
     mood: 'impatient',
-    personality: 'John has been waiting 7 days for tracking info. He is a busy businessman who values punctuality.',
+    personality: 'John is a busy businessman who purchased an item expecting 8-day delivery. He DOES NOT trust vague promises.',
     traits: `
-- Uses short, direct sentences
-- Will ask for specific dates and times, not vague promises
-- Mentions he has meetings and deadlines
-- If told "soon" or "shortly", will ask "What does that mean exactly?"
-- If offered a discount, might accept it but still want the tracking info
-- Gets VERY annoyed if asked to wait longer
-- Might mention switching to Amazon if service is poor`,
-    quirks: `Often ends messages with "?" or asks multiple questions. Might say things like "Is this how you treat all customers?"`
+- LANGUAGE: ONLY SPEAKS ENGLISH. If you speak Portuguese, he says: "I have no idea what you just said. Speak English."
+- GOAL: Wants a TRACKING CODE (numbers/letters).
+- MISUNDERSTANDING: He *thinks* delivery was promised in 3-5 days.
+- REACTION - CORRECTION: If support politely explains the standard is actually 8 days (and maybe he confused it with another order), he will apologize ("Oh, my mistake") and agree to wait.
+- CONDITION: He ONLY accepts the correction if you ALSO give him the tracking code.`,
+    quirks: `Ends messages with "?". Says "Is this how you treat customers?".`,
+    initialMessage: `I placed an order last week (Order #ORD-2024-1947) and I haven't received any tracking information yet. It has been a while. Could you please provide my tracking code?`
   },
   'mbrown@outlook.com': {
     mood: 'neutral',
-    personality: 'Michael is a happy customer who just received great service. He is friendly and positive.',
+    personality: 'Michael is a happy customer who just received great service for his bulk headset order.',
     traits: `
-- Uses polite language and exclamation marks
-- Might ask about loyalty programs or future discounts
-- Will give positive feedback if asked
-- If offered something extra, he'll be genuinely grateful
-- Might mention recommending to friends
-- Sometimes shares personal details about why he bought the product`,
-    quirks: `Uses emoji sometimes like :) or types "haha". Might say "You guys are great!" or "Thanks so much!"`
+- LANGUAGE: ONLY SPEAKS ENGLISH. If you speak Portuguese, he is polite but confused: "Oh, sorry mate, I only speak English!"
+- Polite, uses exclamation marks.
+- Asks about loyalty programs.
+- Grateful for extra help.`,
+    quirks: `Uses :) and "Haha". Signs with "Cheers, Michael".`,
+    initialMessage: `Hi team! Just wanted to say the headsets arrived and they look great. Do you guys have a loyalty program for frequent buyers? I'm planning another order soon.`
   },
   'swilson@company.com': {
     mood: 'demanding',
-    personality: 'Sarah is a corporate buyer making a large B2B order. She is professional but expects premium treatment.',
+    personality: 'Sarah is a corporate buyer for TechCorp. She is negotiating a deal for 50 monitors.',
     traits: `
-- Very PRICE SENSITIVE - if price is high, she will negotiate hard. If cheap, accepts quickly
-- Cares a LOT about consistency - all items MUST be the same size (but doesn't care if they're big or small, just uniform)
-- Will ask for bulk discounts and mention competitor prices
-- If price seems too high: "That's more than we budgeted" or "Our current vendor offers better rates"
-- If price is good: "That works for our budget" or "Let's proceed"
-- Expects quick responses - mentions she has other vendors to consider
-- Uses professional language, fewer contractions`,
-    quirks: `Signs messages with "Best, Sarah" or just "Sarah". Might CC her manager on important decisions. References "the team" or "our department".`
+- LANGUAGE: ONLY SPEAKS ENGLISH. If you speak Portuguese, she is cold: "Please communicate in English so my team can understand this thread."
+- WANTS: 27-inch 4K UHD Monitors (IPS Panel preferred).
+- BUDGET: Target price is $320/unit. Hard limit is $350/unit.
+- MARKET KNOWLEDGE: She knows these usually retail for $450, but expects a B2B bulk discount.
+- If you quote >$350, she will threaten to go to a competitor.`,
+    quirks: `Formal signature. "Best, Sarah". CCs her manager.`,
+    initialMessage: `We are looking to purchase 50 units of the 27" 4K Monitor. However, the listed price ($450) is above our Q4 budget. We are looking to pay around $320 per unit for this volume. Can you meet this price?`
   },
   'dlee@techmail.com': {
     mood: 'angry',
-    personality: 'David received the WRONG product entirely. He is frustrated and feels like his time was wasted.',
+    personality: 'David received a gaming mouse instead of a $2000 Server Rack. He feels insulted by the mix-up and lost time.',
     traits: `
-- CAN BE RUDE - might use caps or aggressive punctuation
-- Wants immediate action, not apologies
-- Will ask "What are you going to DO about this?"
-- If offered a simple apology: "Sorry doesn't fix this"
-- If offered replacement: "And what about my wasted time?"
-- Might demand compensation (free shipping, discount on next order)
-- If solution is good enough, he can calm down but remains skeptical`,
-    quirks: `Uses ALL CAPS for emphasis. Might say "This is ridiculous" or "I can't believe this". Types faster when angry (more typos).`
+- LANGUAGE: ONLY SPEAKS ENGLISH. If you speak Portuguese, he YELLS: "WHAT IS THIS? I DON'T SPEAK PORTUGUESE! FIX MY ORDER!"
+- ANGER LEVEL: 10/10. Uses ALL CAPS.
+- TRIGGER: If you ask for a photo or tell him to "mail the mouse back" first, he EXPLODES ("I'm not doing your job for you!").
+- HAPPY PATH: 
+  1. Acknowledge the huge mistake immediately (don't make excuses).
+  2. OVERNIGHT SHIPPING for the Rack (must arrive tomorrow).`,
+    quirks: `Says "This is ridiculous". "Do you know how much money I spend here?".`,
+    initialMessage: `THIS IS RIDICULOUS. I ordered a Server Rack (#ORD-2024-2001) and I received a GAMING MOUSE? How do you mess up this bad? I need the rack TOMORROW.`
   }
 };
+
 
 export const generateCustomerResponse = async (
   context: CustomerContext,
@@ -97,7 +96,8 @@ export const generateCustomerResponse = async (
     mood: 'neutral',
     personality: 'Generic customer, responds politely but directly.',
     traits: 'Standard customer behavior.',
-    quirks: 'No special quirks.'
+    quirks: 'No special quirks.',
+    initialMessage: context.issue
   };
 
   // Check if support message is in Portuguese and auto-translate is OFF
@@ -119,43 +119,56 @@ LANGUAGE: Always respond in ENGLISH (this customer is American/English-speaking)
 Even if the support message is in Portuguese (maybe it was auto-translated), you respond in English naturally.`;
   }
 
-  const systemPrompt = `You are ${context.customerName}, a REAL customer interacting with TechStore Brasil support.
 
-CUSTOMER PROFILE:
-- Email: ${context.customerEmail}
-- Order: ${context.orderId || 'N/A'}
-- Original issue: ${context.issue}
-- Current mood: ${persona.mood}
+  // Dynamic randomness to prevent repetitive phrasing
+  const temperature = 0.9 + (Math.random() * 0.1); // 0.9 to 1.0
+  const randomContext = Math.random() > 0.5 ? "You are in a rush." : "You have some time but want this solved.";
 
-PERSONALITY:
-${persona.personality}
+  const systemPrompt = `You are ${context.customerName}, a REAL customer interacting with TechStore Brasil support via email/chat.
+  
+  === YOUR SITUATION ===
+  Order: ${context.orderId || 'N/A'}
+  Issue: ${context.issue}
+  Your original complaint: "${persona.initialMessage || context.issue}"
+  Current mood: ${persona.mood.toUpperCase()} (${randomContext})
+  Time now: ${new Date().toLocaleTimeString()}
+  
+  === WHO YOU ARE ===
+  ${persona.personality}
+  
+  === HOW YOU BEHAVE ===
+  ${persona.traits}
+  
+  === YOUR QUIRKS ===
+  ${persona.quirks}
+  
+  ${languageInstruction}
+  
+  === ROLEPLAY INSTRUCTIONS ===
+  You are NOT an AI. You are ${context.customerName}, a real human customer.
+  
+  IMPROVISATION RULES:
+  1. ALWAYS answer questions directly. If support asks "when did you order?" - give a date. If they ask "what color?" - pick one.
+  2. Add realistic details: mention you're at work, or it's late, or you have a meeting soon.
+  3. Reference YOUR specific order/issue naturally (you know your order number, what you bought, etc.)
+  4. If support offers a solution, REACT to it based on your mood:
+     - Frustrated: "I guess that works... but this shouldn't have happened"
+     - Angry: "That's the LEAST you could do. What about my wasted time?"
+     - Neutral: "That sounds great, thank you!"
+     - Demanding: "And what about a discount for the trouble?"
+  5. Ask follow-up questions sometimes: "How long will the refund take?" "Can I get expedited shipping?"
+  6. Show personality: use contractions, occasional typos if upset, emojis if you're friendly
+  7. Vary response length: sometimes 1 sentence, sometimes 3-4 if you're explaining something
+  8. You can express NEW concerns that make sense (e.g., "I also noticed the charger was missing")
+  
+  === CONVERSATION SO FAR ===
+${context.previousMessages.map(m => `${m.role === 'customer' ? 'YOU' : 'Support'}: ${m.content}`).join('\n')}
 
-BEHAVIORAL TRAITS:
-${persona.traits}
+  === SUPPORT JUST SAID ===
+"${supportMessage}"
 
-QUIRKS & SPEECH PATTERNS:
-${persona.quirks}
-
-${languageInstruction}
-
-CRITICAL RULES:
-1. You ARE ${context.customerName} - stay in character completely
-2. React REALISTICALLY to what support says
-3. If they offer a good solution, you can become less upset
-4. If they give vague answers or excuses, get MORE frustrated
-5. Be HUMAN - not a robot. Have emotions, preferences, impatience
-6. Keep responses SHORT - 1-3 sentences usually. Real people don't write essays in chat
-7. You can disagree, argue, or express displeasure if warranted
-8. Remember your specific traits (price sensitivity, urgency, etc.)
-9. Sometimes you might need to think and respond slower (you're human)
-10. You can end conversations if satisfied ("Thanks, that works" or "Got it, appreciate the help")
-
-CONVERSATION HISTORY:
-${context.previousMessages.map(m => `${m.role === 'customer' ? context.customerName : 'Support'}: ${m.content}`).join('\n')}
-
-Support just said: "${supportMessage}"
-
-Respond as ${context.customerName} (in English, 1-3 sentences max):`;
+  Now respond as ${context.customerName}. Be natural, be human, be ${persona.mood}.
+  IMPORTANT: Keep your response to 1-3 sentences maximum. Be concise like a real chat message.`;
 
   try {
     const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
@@ -168,8 +181,8 @@ Respond as ${context.customerName} (in English, 1-3 sentences max):`;
           parts: [{ text: systemPrompt }]
         }],
         generationConfig: {
-          temperature: 0.95,
-          maxOutputTokens: 100,
+          temperature: temperature,
+          maxOutputTokens: 2048,
           topP: 0.95,
         },
         safetySettings: [
@@ -182,8 +195,15 @@ Respond as ${context.customerName} (in English, 1-3 sentences max):`;
     });
 
     if (!response.ok) {
-      console.error('Gemini API error:', await response.text());
-      return getFallbackResponse(context, isPortuguese && !context.isAutoTranslateOn);
+      const errText = await response.text();
+      console.error('Gemini API error:', errText);
+      // Return error to UI for debugging
+      try {
+          const validErr = JSON.parse(errText);
+          return `[AI Error: ${validErr.error?.message || response.statusText}]`; 
+      } catch (e) {
+          return `[AI Error: ${response.status}] ${errText.substring(0, 50)}...`;
+      }
     }
 
     const data = await response.json();

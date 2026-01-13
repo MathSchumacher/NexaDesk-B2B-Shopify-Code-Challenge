@@ -22,7 +22,22 @@ import { CustomTags } from '../../components/CustomTags';
 import { supportInbox, storeCustomerEmails } from '../../data/mockData';
 import { generateCustomerResponse, getTypingDelay, getResponseDelay } from '../../services/aiCustomerService';
 import { connectSocket, onInboxUpdate } from '../../services/socketService';
+import { translateText } from '../../services/translateService';
 import './Inbox.css';
+
+// Debounce hook helper
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+  return debouncedValue;
+}
 
 // Local type definitions
 type EmailStatus = 'new' | 'replied' | 'pending';
@@ -189,6 +204,40 @@ export const Inbox = () => {
   const [showTranslatedReply, setShowTranslatedReply] = useState(false);
   const [isCustomerTyping, setIsCustomerTyping] = useState(false);
   const [isSending, setIsSending] = useState(false);
+
+  // Translation Cache State: { [text_hash]: translated_text }
+  const [translations, setTranslations] = useState<Record<string, string>>({});
+  
+  // Debounce reply text for translation
+  const debouncedReplyText = useDebounce(replyText, 800);
+
+  // Effect to translate visible messages when showTranslation is ON
+  useEffect(() => {
+    if (showTranslation && selectedEmail) {
+      selectedEmail.thread.forEach(async (msg) => {
+        if (!translations[msg.id]) {
+            // Translate everything to Portuguese
+            const res = await translateText(msg.content, 'pt');
+            if (res.translatedText) {
+                setTranslations(prev => ({ ...prev, [msg.id]: res.translatedText }));
+            }
+        }
+      });
+    }
+  }, [showTranslation, selectedEmail, translations]);
+
+  // Effect to translate Reply Preview (PT -> EN)
+  useEffect(() => {
+    const translateReply = async () => {
+      if (showTranslatedReply && debouncedReplyText.trim()) {
+        const res = await translateText(debouncedReplyText, 'en');
+        if (res.translatedText) {
+          setTranslations(prev => ({ ...prev, 'reply_preview': res.translatedText }));
+        }
+      }
+    };
+    translateReply();
+  }, [debouncedReplyText, showTranslatedReply]);
   
   // B2B Collaboration State
   const [emailMeta, setEmailMeta] = useState<Record<string, {
@@ -307,31 +356,29 @@ export const Inbox = () => {
     }
   };
 
-  // Mock translation (in real app would use API)
-  const mockTranslate = (text: string, _toPortuguese: boolean = true) => {
-    if (_toPortuguese) {
-      // Simulated EN -> PT translation
-      return text
-        .replace(/Hi,?/gi, 'Olá,')
-        .replace(/Hello,?/gi, 'Olá,')
-        .replace(/Thank you/gi, 'Obrigado')
-        .replace(/order/gi, 'pedido')
-        .replace(/please/gi, 'por favor')
-        .replace(/I would like/gi, 'Eu gostaria');
-    }
-    // Simulated PT -> EN translation
-    return text
-      .replace(/Olá,?/gi, 'Hello,')
-      .replace(/Obrigado/gi, 'Thank you')
-      .replace(/pedido/gi, 'order')
-      .replace(/por favor/gi, 'please');
+  // Helper to get cached translation or original
+  const getDisplayContent = (text: string, id: string) => {
+    return showTranslation && translations[id] ? translations[id] : text;
   };
 
   const handleSendReply = async () => {
     if (!replyText.trim() || !selectedEmail || isSending) return;
     
     setIsSending(true);
-    const messageContent = replyText;
+    
+    // Determine content: Use translation if "Auto-traduzir EN" is active
+    let messageContent = replyText;
+    if (showTranslatedReply) {
+       // Prefer cached preview, otherwise translate now
+       const cachedTranslation = translations['reply_preview'];
+       if (cachedTranslation && !cachedTranslation.startsWith('[')) {
+          messageContent = cachedTranslation;
+       } else {
+          // Fallback: synchronous wait for translation if cache missing/error
+          const res = await translateText(replyText, 'en');
+          messageContent = res.translatedText;
+       }
+    }
     
     // Add support message to thread
     const supportMessage: EmailMessage = {
@@ -607,7 +654,7 @@ export const Inbox = () => {
                   onToggle={() => toggleMessage(message.id)}
                   showTranslation={showTranslation}
                   formatDate={formatFullDate}
-                  mockTranslate={mockTranslate}
+                  translation={translations[message.id]}
                   getAvatar={getAvatar}
                 />
               ))}
@@ -661,7 +708,7 @@ export const Inbox = () => {
                       <Languages size={12} />
                       Prévia em Inglês:
                     </div>
-                    <p>{mockTranslate(replyText, false)}</p>
+                    <p>{translations['reply_preview'] || 'Traduzindo...'}</p>
                   </div>
                 )}
               </div>
@@ -693,7 +740,7 @@ interface ThreadMessageProps {
   onToggle: () => void;
   showTranslation: boolean;
   formatDate: (date: string) => string;
-  mockTranslate: (text: string, toPortuguese?: boolean) => string;
+  translation?: string;
   getAvatar: (email: string) => string | null;
 }
 
@@ -703,10 +750,10 @@ const ThreadMessage = ({
   onToggle, 
   showTranslation,
   formatDate,
-  mockTranslate,
+  translation,
   getAvatar
 }: ThreadMessageProps) => {
-  const displayContent = showTranslation ? mockTranslate(message.content, true) : message.content;
+  const displayContent = showTranslation && translation ? translation : message.content;
 
   // Determine avatar source: Priorities: message.from.avatar -> static map -> initials
   const avatarSrc = message.from.avatar || getAvatar(message.from.email);

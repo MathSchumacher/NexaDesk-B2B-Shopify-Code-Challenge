@@ -932,9 +932,9 @@
   }
 
   .partner-logo-item {
-    width: 100px;
-    height: 60px;
-    padding: 8px;
+    width: 140px; /* Increased from 100px */
+    height: 80px; /* Increased from 60px */
+    padding: 12px;
   }
 
   /* Features Section */

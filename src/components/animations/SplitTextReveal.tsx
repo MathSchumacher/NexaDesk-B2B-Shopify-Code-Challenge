@@ -31,13 +31,12 @@ export const SplitTextReveal: React.FC<SplitTextRevealProps> = ({
   staggerAmount = 0.03,
   duration = 0.8,
   delay = 0,
-  scrub = false,
-  start = 'top 85%',
-  end = 'top 40%',
+  scrub = 0.05,        // Near-instant scroll response (true = 1 second delay, we want minimal)
+  start = 'top 85%',   // Element top hits 85% of viewport
+  end = 'top 70%',     // Animation completes at this point
 }) => {
   const containerRef = useRef<HTMLElement>(null);
 
-  // ... (effect logic unchanged)
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -53,15 +52,14 @@ export const SplitTextReveal: React.FC<SplitTextRevealProps> = ({
       // Ensure opacity is reset before animation starts to avoid flash
       gsap.set(elements, { opacity: 0, y: 30, rotateX: -20 });
 
-      // Create the scroll animation
+      // Create the scroll animation - scrub links animation directly to scroll position
       gsap.to(elements, {
         scrollTrigger: {
           trigger: container,
           start,
           end,
-          // If scrub is enabled, we just scrub. If not, we play on enter and reverse on leave back up.
-          toggleActions: scrub ? undefined : 'play none none reverse',
-          scrub: scrub === true ? 1 : scrub,
+          scrub: scrub === true ? 1 : (scrub === false ? false : scrub),
+          // When scrub is enabled, animation reverses automatically as you scroll back
         },
         opacity: 1,
         y: 0,
@@ -69,7 +67,7 @@ export const SplitTextReveal: React.FC<SplitTextRevealProps> = ({
         stagger: staggerAmount,
         duration,
         delay,
-        ease: 'power3.out',
+        ease: 'none', // Linear easing works best with scrub
         overwrite: 'auto'
       });
     }, containerRef); // Scope to container

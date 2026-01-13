@@ -20,7 +20,7 @@ interface ScrollRevealProps {
 
 /**
  * ScrollReveal - A wrapper component that animates its children on scroll.
- * Provides various animation presets with reversibility.
+ * Uses scrub mode by default for continuous fade-in/out based on scroll position.
  */
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
@@ -31,13 +31,12 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   duration = 0.8,
   delay = 0,
   stagger = 0,
-  start = 'top 85%',
-  end = 'top 40%',
-  scrub = false,
+  start = 'top 85%',   // Element top hits 85% of viewport
+  end = 'top 70%',     // Animation completes at this point
+  scrub = 0.05,        // Near-instant scroll response (true = 1 second delay, we want minimal)
 }) => {
   const containerRef = useRef<any>(null); // adapt ref type
 
-  // ... (effect logic remains same)
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -63,14 +62,14 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
       // Set initial state immediately to avoid FOUC
       gsap.set(targets, fromVars);
 
-      // Animate TO natural state
+      // Animate TO natural state - scrub links animation directly to scroll position
       gsap.to(targets, {
         scrollTrigger: {
           trigger: container,
           start,
           end,
-          toggleActions: scrub ? undefined : 'play none none reverse',
-          scrub: scrub === true ? 1 : scrub,
+          scrub: scrub === true ? 1 : (scrub === false ? false : scrub),
+          // When scrub is enabled, animation reverses automatically as you scroll back
         },
         opacity: 1,
         y: 0,
@@ -80,7 +79,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
         duration,
         delay,
         stagger: stagger > 0 ? stagger : undefined,
-        ease: 'power3.out',
+        ease: 'none', // Linear easing works best with scrub
         overwrite: 'auto'
       });
     }, containerRef);
@@ -88,11 +87,14 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
     return () => ctx.revert();
   }, [animation, duration, delay, stagger, start, end, scrub]);
 
+  const TagComponent = Tag as React.ElementType;
+  
   return (
-    <Tag ref={containerRef} className={`scroll-reveal ${className}`} style={style}>
+    <TagComponent ref={containerRef} className={`scroll-reveal ${className}`} style={style}>
       {children}
-    </Tag>
+    </TagComponent>
   );
 };
 
 export default ScrollReveal;
+
